@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+  api-server:
+    build:
+      context: .
+    container_name: mp-api-server
+    volumes:
+      - ./:/api-server/
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8000:8000"
+    command: >
+      bash -c
+      "go run cmd/main.go"
+  admin:
+    build:
+      context: ./admin/
+    container_name: mp-admin
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./admin:/admin/
+    depends_on:
+      - postgres
+    command: >
+      bash -c
+      "python3 manage.py runserver 0.0.0.0:9000"
+  postgres:
+    image: postgres:16
+    container_name: mp-postgres
+    volumes:
+      - mp_pg_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=myportadmin
+      - POSTGRES_PASSWORD=myportpass777
+      - POSTGRES_DB=my-portfolio
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:5-alpine
+    container_name: mp-redis
+    volumes:
+      - mp_redis_data:/data
+
+volumes:
+  mp_pg_data: {}
+  mp_redis_data: {}
+
+
+

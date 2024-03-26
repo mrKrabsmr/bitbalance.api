@@ -1,0 +1,836 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API for get cryptocurrencies",
+        "title": "My-Portfolio",
+        "contact": {
+            "name": "My-Portfolio support"
+        },
+        "version": "1.0"
+    },
+    "host": "127.0.0.1:8000",
+    "paths": {
+        "/api/v1/cryptocurrencies": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "все криптовалюты",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cryptocurrency"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseSuccess"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/login": {
+            "post": {
+                "description": "авторизация",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.LoginData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.Tokens"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/portfolio": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "портфель",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "portfolio"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.PortfolioGetResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "добавить в портфель криптовалюту",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "portfolio"
+                ],
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.PortfolioPostData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseSuccess"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/portfolio/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "удалить криптовалюту из портфеля",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "portfolio"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Portfolio detail ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.PortfolioGetResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "обновитель информацию о криптовалюте в портфеле",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "portfolio"
+                ],
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.PortfolioPatchData"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Portfolio detail ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseSuccess"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/refresh": {
+            "post": {
+                "description": "обновление токенов",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.RefreshData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.Tokens"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/register": {
+            "post": {
+                "description": "регистрация",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.RegisterData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.Tokens"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/stakings": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "список стейкингов",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "staking"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/internal_app_controllers.StakingGetResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/stakings/detail/{crypt_symbol}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "список стейкингов для конкретной криптовалюты",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "staking"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Cryptocurrency symbol",
+                        "name": "crypt_symbol",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/internal_app_controllers.StakingDetailGetResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/stakings/portfolio": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "список стейкингов для криптовалют в портфеле",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "staking"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/internal_app_controllers.StakingGetResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "fl_my-portfolio_internal_clients.CryptocurrencyDataDetail": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "quote": {
+                    "type": "object",
+                    "properties": {
+                        "BTC": {
+                            "type": "object",
+                            "properties": {
+                                "percent_change_24h": {
+                                    "description": "Volume24h        float64 `json:\"volume_24h\"`\nVolumeChange24h  float64 `json:\"volume_change_24h\"`\nPercentChange1h  float64 `json:\"percent_change_1h\"`",
+                                    "type": "number"
+                                },
+                                "percent_change_30d": {
+                                    "description": "PercentChange7d  float64 `json:\"percent_change_7d\"`",
+                                    "type": "number"
+                                },
+                                "percent_change_90d": {
+                                    "description": "PercentChange60d float64 `json:\"percent_change_60d\"`",
+                                    "type": "number"
+                                },
+                                "price": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "RUB": {
+                            "type": "object",
+                            "properties": {
+                                "percent_change_24h": {
+                                    "description": "Volume24h        float64 `json:\"volume_24h\"`\nVolumeChange24h  float64 `json:\"volume_change_24h\"`\nPercentChange1h  float64 `json:\"percent_change_1h\"`",
+                                    "type": "number"
+                                },
+                                "percent_change_30d": {
+                                    "description": "PercentChange7d  float64 `json:\"percent_change_7d\"`",
+                                    "type": "number"
+                                },
+                                "percent_change_90d": {
+                                    "description": "PercentChange60d float64 `json:\"percent_change_60d\"`",
+                                    "type": "number"
+                                },
+                                "price": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "USD": {
+                            "type": "object",
+                            "properties": {
+                                "percent_change_24h": {
+                                    "description": "Volume24h        float64 `json:\"volume_24h\"`\nVolumeChange24h  float64 `json:\"volume_change_24h\"`\nPercentChange1h  float64 `json:\"percent_change_1h\"`",
+                                    "type": "number"
+                                },
+                                "percent_change_30d": {
+                                    "description": "PercentChange7d  float64 `json:\"percent_change_7d\"`",
+                                    "type": "number"
+                                },
+                                "percent_change_90d": {
+                                    "description": "PercentChange60d float64 `json:\"percent_change_60d\"`",
+                                    "type": "number"
+                                },
+                                "price": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "symbol": {
+                    "type": "string"
+                }
+            }
+        },
+        "fl_my-portfolio_internal_clients.StakingData": {
+            "type": "object",
+            "properties": {
+                "apy": {
+                    "type": "number"
+                },
+                "asset": {
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "quota_minimum": {
+                    "type": "number"
+                },
+                "reward_asset": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_app_controllers.LoginData": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_app_controllers.PortfolioDetailGetResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "price",
+                "purchase_time"
+            ],
+            "properties": {
+                "ROI": {
+                    "type": "number"
+                },
+                "commentary": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "cryptocurrency": {
+                    "type": "string"
+                },
+                "cryptocurrency_id": {
+                    "type": "integer"
+                },
+                "cryptocurrency_symbol": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "now_price": {
+                    "type": "number"
+                },
+                "now_sum": {
+                    "type": "number"
+                },
+                "percent_change_24h": {
+                    "type": "number"
+                },
+                "percent_change_30d": {
+                    "type": "number"
+                },
+                "percent_change_90d": {
+                    "type": "number"
+                },
+                "portfolio_share": {
+                    "type": "number"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "purchase_time": {
+                    "type": "string"
+                },
+                "sum": {
+                    "type": "number"
+                }
+            }
+        },
+        "internal_app_controllers.PortfolioGetResponse": {
+            "type": "object",
+            "properties": {
+                "ROI": {
+                    "type": "number"
+                },
+                "cryptocurrencies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/internal_app_controllers.PortfolioDetailGetResponse"
+                    }
+                },
+                "total_now_sum": {
+                    "type": "number"
+                },
+                "total_purchased_sum": {
+                    "type": "number"
+                }
+            }
+        },
+        "internal_app_controllers.PortfolioPatchData": {
+            "type": "object",
+            "properties": {
+                "commentary": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "number"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "purchase_time": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_app_controllers.PortfolioPostData": {
+            "type": "object",
+            "required": [
+                "cmc_cryptocurrency_id",
+                "count",
+                "price",
+                "purchase_time"
+            ],
+            "properties": {
+                "cmc_cryptocurrency_id": {
+                    "type": "integer"
+                },
+                "commentary": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "number"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "purchase_time": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_app_controllers.RefreshData": {
+            "type": "object",
+            "required": [
+                "refresh_token"
+            ],
+            "properties": {
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_app_controllers.RegisterData": {
+            "type": "object",
+            "required": [
+                "birth_date",
+                "email",
+                "first_name",
+                "gender",
+                "last_name",
+                "password"
+            ],
+            "properties": {
+                "birth_date": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string",
+                    "minLength": 2
+                },
+                "gender": {
+                    "type": "string",
+                    "enum": [
+                        "male",
+                        "female"
+                    ]
+                },
+                "last_name": {
+                    "type": "string",
+                    "minLength": 2
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 8
+                }
+            }
+        },
+        "internal_app_controllers.ResponseError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "boolean"
+                },
+                "error_string": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal_app_controllers.ResponseSuccess": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "error": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "internal_app_controllers.StakingDetailGetResponse": {
+            "type": "object",
+            "properties": {
+                "binance_stakings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                    }
+                },
+                "bybit_stakings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                    }
+                },
+                "okx_stakings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                    }
+                }
+            }
+        },
+        "internal_app_controllers.StakingGetResponse": {
+            "type": "object",
+            "properties": {
+                "binance_staking": {
+                    "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                },
+                "bybit_staking": {
+                    "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                },
+                "cryptocurrency_data": {
+                    "$ref": "#/definitions/fl_my-portfolio_internal_clients.CryptocurrencyDataDetail"
+                },
+                "okx_staking": {
+                    "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                }
+            }
+        },
+        "internal_app_controllers.Tokens": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
