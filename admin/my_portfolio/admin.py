@@ -14,7 +14,7 @@ class PortfolioInline(admin.TabularInline):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("email", "first_name", "last_name")
+    list_display = ("username",)
     inlines = (PortfolioInline,)
 
 

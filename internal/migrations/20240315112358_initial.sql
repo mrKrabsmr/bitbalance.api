@@ -6,12 +6,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS users(
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
+    username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    gender VARCHAR(255) NOT NULL CHECK(gender IN ('male', 'female')),
-    birth_date DATE NOT NULL,
     created_at TIMESTAMP DEFAULT NOW() NOT NULL,
     is_superuser BOOLEAN DEFAULT FALSE,
     is_staff BOOLEAN DEFAULT FALSE
@@ -33,8 +29,7 @@ CREATE TABLE IF NOT EXISTS portfolios(
     count FLOAT NOT NULL,
     purchase_time TIMESTAMP NOT NULL,
     commentary VARCHAR,
-    created_at TIMESTAMP DEFAULT NOW() NOT NULL,
-    UNIQUE ("user_id", "cmc_cryptocurrency_id")
+    created_at TIMESTAMP DEFAULT NOW() NOT NULL
 );
 
 -- +goose StatementEnd

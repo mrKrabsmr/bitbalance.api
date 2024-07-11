@@ -38,13 +38,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseSuccess"
+                            "$ref": "#/definitions/controllers.ResponseSuccess"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -69,7 +69,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.LoginData"
+                            "$ref": "#/definitions/controllers.LoginData"
                         }
                     }
                 ],
@@ -77,19 +77,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.Tokens"
+                            "$ref": "#/definitions/controllers.Tokens"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -116,13 +116,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.PortfolioGetResponse"
+                            "$ref": "#/definitions/controllers.PortfolioGetResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -150,7 +150,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.PortfolioPostData"
+                            "$ref": "#/definitions/controllers.PortfolioPostData"
                         }
                     }
                 ],
@@ -158,13 +158,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseSuccess"
+                            "$ref": "#/definitions/controllers.ResponseSuccess"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -200,13 +200,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.PortfolioGetResponse"
+                            "$ref": "#/definitions/controllers.PortfolioGetResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -234,7 +234,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.PortfolioPatchData"
+                            "$ref": "#/definitions/controllers.PortfolioPatchData"
                         }
                     },
                     {
@@ -249,13 +249,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseSuccess"
+                            "$ref": "#/definitions/controllers.ResponseSuccess"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -280,7 +280,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.RefreshData"
+                            "$ref": "#/definitions/controllers.RefreshData"
                         }
                     }
                 ],
@@ -288,19 +288,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.Tokens"
+                            "$ref": "#/definitions/controllers.Tokens"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -325,7 +325,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.RegisterData"
+                            "$ref": "#/definitions/controllers.RegisterData"
                         }
                     }
                 ],
@@ -333,19 +333,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.Tokens"
+                            "$ref": "#/definitions/controllers.Tokens"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -374,14 +374,14 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/internal_app_controllers.StakingGetResponse"
+                                "$ref": "#/definitions/controllers.StakingGetResponse"
                             }
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -419,14 +419,14 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/internal_app_controllers.StakingDetailGetResponse"
+                                "$ref": "#/definitions/controllers.StakingDetailGetResponse"
                             }
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -455,14 +455,14 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/internal_app_controllers.StakingGetResponse"
+                                "$ref": "#/definitions/controllers.StakingGetResponse"
                             }
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/internal_app_controllers.ResponseError"
+                            "$ref": "#/definitions/controllers.ResponseError"
                         }
                     }
                 }
@@ -470,7 +470,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "fl_my-portfolio_internal_clients.CryptocurrencyDataDetail": {
+        "clients.CryptocurrencyDataDetail": {
             "type": "object",
             "properties": {
                 "id": {
@@ -549,7 +549,7 @@ const docTemplate = `{
                 }
             }
         },
-        "fl_my-portfolio_internal_clients.StakingData": {
+        "clients.StakingData": {
             "type": "object",
             "properties": {
                 "apy": {
@@ -569,40 +569,29 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_app_controllers.LoginData": {
+        "controllers.LoginData": {
             "type": "object",
             "required": [
-                "email",
-                "password"
+                "password",
+                "username"
             ],
             "properties": {
-                "email": {
+                "password": {
                     "type": "string"
                 },
-                "password": {
+                "username": {
                     "type": "string"
                 }
             }
         },
-        "internal_app_controllers.PortfolioDetailGetResponse": {
+        "controllers.PortfolioDetailGetResponse": {
             "type": "object",
-            "required": [
-                "count",
-                "price",
-                "purchase_time"
-            ],
             "properties": {
                 "ROI": {
                     "type": "number"
                 },
-                "commentary": {
-                    "type": "string"
-                },
                 "count": {
                     "type": "number"
-                },
-                "created_at": {
-                    "type": "string"
                 },
                 "cryptocurrency": {
                     "type": "string"
@@ -613,13 +602,7 @@ const docTemplate = `{
                 "cryptocurrency_symbol": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "string"
-                },
                 "now_price": {
-                    "type": "number"
-                },
-                "now_sum": {
                     "type": "number"
                 },
                 "percent_change_24h": {
@@ -634,18 +617,21 @@ const docTemplate = `{
                 "portfolio_share": {
                     "type": "number"
                 },
-                "price": {
+                "profit": {
                     "type": "number"
                 },
-                "purchase_time": {
-                    "type": "string"
+                "purchases": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/controllers.PurchaseGetResponse"
+                    }
                 },
                 "sum": {
                     "type": "number"
                 }
             }
         },
-        "internal_app_controllers.PortfolioGetResponse": {
+        "controllers.PortfolioGetResponse": {
             "type": "object",
             "properties": {
                 "ROI": {
@@ -654,7 +640,7 @@ const docTemplate = `{
                 "cryptocurrencies": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/internal_app_controllers.PortfolioDetailGetResponse"
+                        "$ref": "#/definitions/controllers.PortfolioDetailGetResponse"
                     }
                 },
                 "total_now_sum": {
@@ -665,7 +651,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_app_controllers.PortfolioPatchData": {
+        "controllers.PortfolioPatchData": {
             "type": "object",
             "properties": {
                 "commentary": {
@@ -682,7 +668,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_app_controllers.PortfolioPostData": {
+        "controllers.PortfolioPostData": {
             "type": "object",
             "required": [
                 "cmc_cryptocurrency_id",
@@ -708,7 +694,38 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_app_controllers.RefreshData": {
+        "controllers.PurchaseGetResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "price",
+                "purchase_time"
+            ],
+            "properties": {
+                "commentary": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "purchase_time": {
+                    "type": "string"
+                },
+                "sum": {
+                    "type": "number"
+                }
+            }
+        },
+        "controllers.RefreshData": {
             "type": "object",
             "required": [
                 "refresh_token"
@@ -719,46 +736,24 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_app_controllers.RegisterData": {
+        "controllers.RegisterData": {
             "type": "object",
             "required": [
-                "birth_date",
-                "email",
-                "first_name",
-                "gender",
-                "last_name",
-                "password"
+                "password",
+                "username"
             ],
             "properties": {
-                "birth_date": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string",
-                    "minLength": 2
-                },
-                "gender": {
-                    "type": "string",
-                    "enum": [
-                        "male",
-                        "female"
-                    ]
-                },
-                "last_name": {
-                    "type": "string",
-                    "minLength": 2
-                },
                 "password": {
                     "type": "string",
                     "maxLength": 20,
                     "minLength": 8
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         },
-        "internal_app_controllers.ResponseError": {
+        "controllers.ResponseError": {
             "type": "object",
             "properties": {
                 "error": {
@@ -769,7 +764,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_app_controllers.ResponseSuccess": {
+        "controllers.ResponseSuccess": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -778,47 +773,47 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_app_controllers.StakingDetailGetResponse": {
+        "controllers.StakingDetailGetResponse": {
             "type": "object",
             "properties": {
                 "binance_stakings": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                        "$ref": "#/definitions/clients.StakingData"
                     }
                 },
                 "bybit_stakings": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                        "$ref": "#/definitions/clients.StakingData"
                     }
                 },
                 "okx_stakings": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                        "$ref": "#/definitions/clients.StakingData"
                     }
                 }
             }
         },
-        "internal_app_controllers.StakingGetResponse": {
+        "controllers.StakingGetResponse": {
             "type": "object",
             "properties": {
                 "binance_staking": {
-                    "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                    "$ref": "#/definitions/clients.StakingData"
                 },
                 "bybit_staking": {
-                    "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                    "$ref": "#/definitions/clients.StakingData"
                 },
                 "cryptocurrency_data": {
-                    "$ref": "#/definitions/fl_my-portfolio_internal_clients.CryptocurrencyDataDetail"
+                    "$ref": "#/definitions/clients.CryptocurrencyDataDetail"
                 },
                 "okx_staking": {
-                    "$ref": "#/definitions/fl_my-portfolio_internal_clients.StakingData"
+                    "$ref": "#/definitions/clients.StakingData"
                 }
             }
         },
-        "internal_app_controllers.Tokens": {
+        "controllers.Tokens": {
             "type": "object",
             "properties": {
                 "access_token": {
@@ -828,6 +823,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_id": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }

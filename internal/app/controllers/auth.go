@@ -8,12 +8,11 @@ import (
 	"fl/my-portfolio/internal/app/services"
 	"io"
 	"net/http"
-	"time"
 )
 
 // Post @Summary
 // @Description регистрация
-// @Tags auth 
+// @Tags auth
 // @Accept json
 // @Produce json
 // @Param input body RegisterData true "data"
@@ -44,12 +43,8 @@ func (c *Controller) Register(writer http.ResponseWriter, request *http.Request)
 	}
 
 	user := &models.User{
-		Email:     obj.Email,
-		Password:  obj.Password,
-		FirstName: obj.FirstName,
-		LastName:  obj.LastName,
-		Gender:    obj.Gender,
-		BirthDate: time.Time(obj.BirthDate),
+		Username: obj.Username,
+		Password: obj.Password,
 	}
 
 	userID, err := c.service.CreateUser(user)
@@ -57,7 +52,7 @@ func (c *Controller) Register(writer http.ResponseWriter, request *http.Request)
 		var errTxt string
 		var errCode int
 		if errors.Is(err, services.ErrDuplicate) {
-			errTxt = "user with such email already exists"
+			errTxt = "user with such username already exists"
 			errCode = http.StatusBadRequest
 		} else {
 			errTxt = text[0]
@@ -80,6 +75,7 @@ func (c *Controller) Register(writer http.ResponseWriter, request *http.Request)
 		writer,
 		Tokens{
 			UserID:       userID.String(),
+			Username:     user.Username,
 			AccessToken:  accessToken,
 			RefreshToken: refreshToken,
 		},
@@ -89,7 +85,7 @@ func (c *Controller) Register(writer http.ResponseWriter, request *http.Request)
 
 // Post @Summary
 // @Description авторизация
-// @Tags auth 
+// @Tags auth
 // @Accept json
 // @Produce json
 // @Param input body LoginData true "data"
@@ -119,10 +115,10 @@ func (c *Controller) Login(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	user, err := c.service.GetUserLogin(obj.Email, obj.Password)
+	user, err := c.service.GetUserLogin(obj.Username, obj.Password)
 	if err != nil {
 		c.logger.Error(err)
-		c.JSONResponse(writer, "incorrect email - password pair", http.StatusBadRequest)
+		c.JSONResponse(writer, "incorrect username - password pair", http.StatusBadRequest)
 		return
 	}
 
@@ -137,6 +133,7 @@ func (c *Controller) Login(writer http.ResponseWriter, request *http.Request) {
 		writer,
 		Tokens{
 			UserID:       user.ID.String(),
+			Username:     user.Username,
 			AccessToken:  accessToken,
 			RefreshToken: refreshToken,
 		},
@@ -146,7 +143,7 @@ func (c *Controller) Login(writer http.ResponseWriter, request *http.Request) {
 
 // Post @Summary
 // @Description обновление токенов
-// @Tags auth 
+// @Tags auth
 // @Accept json
 // @Produce json
 // @Param input body RefreshData true "data"
@@ -201,6 +198,7 @@ func (c *Controller) Refresh(writer http.ResponseWriter, request *http.Request) 
 		writer,
 		Tokens{
 			UserID:       user.ID.String(),
+			Username:     user.Username,
 			AccessToken:  accessToken,
 			RefreshToken: refreshToken,
 		},

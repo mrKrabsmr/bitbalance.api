@@ -1,7 +1,7 @@
 package main
 
 import (
-	_"fl/my-portfolio/docs"
+	_ "fl/my-portfolio/docs"
 	server "fl/my-portfolio/internal"
 
 	"flag"
@@ -21,7 +21,7 @@ var opt = flag.String("o", "", "options")
 // @contact.name My-Portfolio support
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
-// @name Authorization 
+// @name Authorization
 func main() {
 	flag.Parse()
 	apiServer := server.NewAPIServer()

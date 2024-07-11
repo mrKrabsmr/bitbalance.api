@@ -29,7 +29,7 @@ func (d *DAO) CreatePortfolioDetail(portfolio *models.Portfolio) error {
 func (d *DAO) GetUserPortfolio(userID uuid.UUID) ([]*models.Portfolio, error) {
 	var portfolio []*models.Portfolio
 
-	query, args, err := psql.Select("*").From("portfolios").Where(sq.Eq{"user_id": userID}).ToSql()
+	query, args, err := psql.Select("*").From("portfolios").Where(sq.Eq{"user_id": userID}).OrderBy("created_at DESC").ToSql()
 	if err != nil {
 		return nil, err
 	}

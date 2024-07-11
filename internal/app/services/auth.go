@@ -44,8 +44,8 @@ func (s *Service) CreateUser(user *models.User) (uuid.UUID, error) {
 	return uID, nil
 }
 
-func (s *Service) GetUserLogin(email string, password string) (*models.User, error) {
-	user, err := s.dao.GetUserByEmail(email)
+func (s *Service) GetUserLogin(username string, password string) (*models.User, error) {
+	user, err := s.dao.GetUserByUsername(username)
 	if err != nil {
 		return nil, err
 	}

@@ -1,5 +1,5 @@
 definitions:
-  fl_my-portfolio_internal_clients.CryptocurrencyDataDetail:
+  clients.CryptocurrencyDataDetail:
     properties:
       id:
         type: integer
@@ -62,7 +62,7 @@ definitions:
       symbol:
         type: string
     type: object
-  fl_my-portfolio_internal_clients.StakingData:
+  clients.StakingData:
     properties:
       apy:
         type: number
@@ -75,37 +75,29 @@ definitions:
       reward_asset:
         type: string
     type: object
-  internal_app_controllers.LoginData:
+  controllers.LoginData:
     properties:
-      email:
-        type: string
       password:
         type: string
+      username:
+        type: string
     required:
-    - email
     - password
+    - username
     type: object
-  internal_app_controllers.PortfolioDetailGetResponse:
+  controllers.PortfolioDetailGetResponse:
     properties:
       ROI:
         type: number
-      commentary:
-        type: string
       count:
         type: number
-      created_at:
-        type: string
       cryptocurrency:
         type: string
       cryptocurrency_id:
         type: integer
       cryptocurrency_symbol:
         type: string
-      id:
-        type: string
       now_price:
-        type: number
-      now_sum:
         type: number
       percent_change_24h:
         type: number
@@ -115,31 +107,29 @@ definitions:
         type: number
       portfolio_share:
         type: number
-      price:
+      profit:
         type: number
-      purchase_time:
-        type: string
+      purchases:
+        items:
+          $ref: '#/definitions/controllers.PurchaseGetResponse'
+        type: array
       sum:
         type: number
-    required:
-    - count
-    - price
-    - purchase_time
     type: object
-  internal_app_controllers.PortfolioGetResponse:
+  controllers.PortfolioGetResponse:
     properties:
       ROI:
         type: number
       cryptocurrencies:
         items:
-          $ref: '#/definitions/internal_app_controllers.PortfolioDetailGetResponse'
+          $ref: '#/definitions/controllers.PortfolioDetailGetResponse'
         type: array
       total_now_sum:
         type: number
       total_purchased_sum:
         type: number
     type: object
-  internal_app_controllers.PortfolioPatchData:
+  controllers.PortfolioPatchData:
     properties:
       commentary:
         type: string
@@ -150,7 +140,7 @@ definitions:
       purchase_time:
         type: string
     type: object
-  internal_app_controllers.PortfolioPostData:
+  controllers.PortfolioPostData:
     properties:
       cmc_cryptocurrency_id:
         type: integer
@@ -168,88 +158,94 @@ definitions:
     - price
     - purchase_time
     type: object
-  internal_app_controllers.RefreshData:
+  controllers.PurchaseGetResponse:
+    properties:
+      commentary:
+        type: string
+      count:
+        type: number
+      created_at:
+        type: string
+      id:
+        type: string
+      price:
+        type: number
+      purchase_time:
+        type: string
+      sum:
+        type: number
+    required:
+    - count
+    - price
+    - purchase_time
+    type: object
+  controllers.RefreshData:
     properties:
       refresh_token:
         type: string
     required:
     - refresh_token
     type: object
-  internal_app_controllers.RegisterData:
+  controllers.RegisterData:
     properties:
-      birth_date:
-        type: string
-      email:
-        type: string
-      first_name:
-        minLength: 2
-        type: string
-      gender:
-        enum:
-        - male
-        - female
-        type: string
-      last_name:
-        minLength: 2
-        type: string
       password:
         maxLength: 20
         minLength: 8
         type: string
+      username:
+        type: string
     required:
-    - birth_date
-    - email
-    - first_name
-    - gender
-    - last_name
     - password
+    - username
     type: object
-  internal_app_controllers.ResponseError:
+  controllers.ResponseError:
     properties:
       error:
         type: boolean
       error_string:
         type: string
     type: object
-  internal_app_controllers.ResponseSuccess:
+  controllers.ResponseSuccess:
     properties:
       data: {}
       error:
         type: boolean
     type: object
-  internal_app_controllers.StakingDetailGetResponse:
+  controllers.StakingDetailGetResponse:
     properties:
       binance_stakings:
         items:
-          $ref: '#/definitions/fl_my-portfolio_internal_clients.StakingData'
+          $ref: '#/definitions/clients.StakingData'
         type: array
       bybit_stakings:
         items:
-          $ref: '#/definitions/fl_my-portfolio_internal_clients.StakingData'
+          $ref: '#/definitions/clients.StakingData'
         type: array
       okx_stakings:
         items:
-          $ref: '#/definitions/fl_my-portfolio_internal_clients.StakingData'
+          $ref: '#/definitions/clients.StakingData'
         type: array
     type: object
-  internal_app_controllers.StakingGetResponse:
+  controllers.StakingGetResponse:
     properties:
       binance_staking:
-        $ref: '#/definitions/fl_my-portfolio_internal_clients.StakingData'
+        $ref: '#/definitions/clients.StakingData'
       bybit_staking:
-        $ref: '#/definitions/fl_my-portfolio_internal_clients.StakingData'
+        $ref: '#/definitions/clients.StakingData'
       cryptocurrency_data:
-        $ref: '#/definitions/fl_my-portfolio_internal_clients.CryptocurrencyDataDetail'
+        $ref: '#/definitions/clients.CryptocurrencyDataDetail'
       okx_staking:
-        $ref: '#/definitions/fl_my-portfolio_internal_clients.StakingData'
+        $ref: '#/definitions/clients.StakingData'
     type: object
-  internal_app_controllers.Tokens:
+  controllers.Tokens:
     properties:
       access_token:
         type: string
       refresh_token:
         type: string
       user_id:
+        type: string
+      username:
         type: string
     type: object
 host: 127.0.0.1:8000
@@ -271,11 +267,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseSuccess'
+            $ref: '#/definitions/controllers.ResponseSuccess'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       security:
       - ApiKeyAuth: []
       tags:
@@ -291,22 +287,22 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/internal_app_controllers.LoginData'
+          $ref: '#/definitions/controllers.LoginData'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_app_controllers.Tokens'
+            $ref: '#/definitions/controllers.Tokens'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       tags:
       - auth
   /api/v1/portfolio:
@@ -320,11 +316,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_app_controllers.PortfolioGetResponse'
+            $ref: '#/definitions/controllers.PortfolioGetResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       security:
       - ApiKeyAuth: []
       tags:
@@ -339,18 +335,18 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/internal_app_controllers.PortfolioPostData'
+          $ref: '#/definitions/controllers.PortfolioPostData'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseSuccess'
+            $ref: '#/definitions/controllers.ResponseSuccess'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       security:
       - ApiKeyAuth: []
       tags:
@@ -372,11 +368,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_app_controllers.PortfolioGetResponse'
+            $ref: '#/definitions/controllers.PortfolioGetResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       security:
       - ApiKeyAuth: []
       tags:
@@ -391,7 +387,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/internal_app_controllers.PortfolioPatchData'
+          $ref: '#/definitions/controllers.PortfolioPatchData'
       - description: Portfolio detail ID
         in: path
         name: id
@@ -403,11 +399,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseSuccess'
+            $ref: '#/definitions/controllers.ResponseSuccess'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       security:
       - ApiKeyAuth: []
       tags:
@@ -423,22 +419,22 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/internal_app_controllers.RefreshData'
+          $ref: '#/definitions/controllers.RefreshData'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/internal_app_controllers.Tokens'
+            $ref: '#/definitions/controllers.Tokens'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       tags:
       - auth
   /api/v1/register:
@@ -452,22 +448,22 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/internal_app_controllers.RegisterData'
+          $ref: '#/definitions/controllers.RegisterData'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/internal_app_controllers.Tokens'
+            $ref: '#/definitions/controllers.Tokens'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       tags:
       - auth
   /api/v1/stakings:
@@ -482,12 +478,12 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/internal_app_controllers.StakingGetResponse'
+              $ref: '#/definitions/controllers.StakingGetResponse'
             type: array
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       security:
       - ApiKeyAuth: []
       tags:
@@ -510,12 +506,12 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/internal_app_controllers.StakingDetailGetResponse'
+              $ref: '#/definitions/controllers.StakingDetailGetResponse'
             type: array
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       security:
       - ApiKeyAuth: []
       tags:
@@ -532,12 +528,12 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/internal_app_controllers.StakingGetResponse'
+              $ref: '#/definitions/controllers.StakingGetResponse'
             type: array
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/internal_app_controllers.ResponseError'
+            $ref: '#/definitions/controllers.ResponseError'
       security:
       - ApiKeyAuth: []
       tags:

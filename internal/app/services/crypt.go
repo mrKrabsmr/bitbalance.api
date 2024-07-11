@@ -1,6 +1,5 @@
 package services
 
-
 import (
 	"context"
 	"encoding/json"
@@ -72,6 +71,16 @@ func (s *Service) GetAllCryptocurrencies(isSorted bool) (*clients.CryptoListings
 		return nil, err
 	}
 
+	// s.logger.Info("Hello")
+	// file, err := os.Create("cc.txt")
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// defer file.Close()
+	// for _, c := range obj.Data {
+	// 	file.Write([]byte(strings.ToLower(c.Symbol) + "\n"))
+	// }
 	return obj, nil
 }
 
@@ -94,6 +103,7 @@ func (s *Service) GetCryptocurrencyAdditionalData(
 	additionalData["percent_change_90d"] = cryptocurrency.Quote.USD.PercentChange90d
 	additionalData["portfolio_share"] = (cryptocurrency.Quote.USD.Price * portfolioDetail.Count) / totalNowSum
 	additionalData["ROI"] = ((nowSum - sum) / sum) * 100
+	additionalData["profit"] = nowSum - sum
 	return additionalData, nil
 }
 

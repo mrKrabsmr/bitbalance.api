@@ -2,7 +2,7 @@ package clients
 
 // api endpoints
 var (
-	cryptoListingLatest = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
+	cryptoListingLatest = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=300"
 )
 
 type CryptocurrencyDataDetail struct {
@@ -77,7 +77,7 @@ type OkxStakingDataResponse struct {
 		} `json:"investData"`
 		EarningData []struct {
 			Ccy string `json:"ccy"`
-		} `json:"earningData`
+		} `json:"earningData"`
 	} `json:"data"`
 }
 

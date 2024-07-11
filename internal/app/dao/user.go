@@ -9,9 +9,9 @@ import (
 
 func (d *DAO) CreateUser(user *models.User) error {
     query, args, err := psql.Insert(user.TableName()).Columns(
-        "id", "email", "password", "first_name", "last_name", "gender", "birth_date", "created_at",
+        "id", "username", "password", "created_at",
     ).Values(
-        user.ID, user.Email, user.Password, user.FirstName, user.LastName, user.Gender, user.BirthDate, user.CreatedAt,
+        user.ID, user.Username, user.Password, user.CreatedAt,
     ).ToSql()
 
     if err != nil {
@@ -42,10 +42,10 @@ func (d *DAO) CreateSession(session *models.Session) error {
     return nil
 }
 
-func (d *DAO) GetUserByEmail(email string) (*models.User, error) {
+func (d *DAO) GetUserByUsername(username string) (*models.User, error) {
     var user models.User
 
-    query, args, err := psql.Select("*").From("users").Where(sq.Eq{"email": email}).ToSql()
+    query, args, err := psql.Select("*").From("users").Where(sq.Eq{"username": username}).ToSql()
     if err != nil {
         return nil, err
     }

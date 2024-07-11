@@ -50,6 +50,14 @@ func (c *Controller) GetPortfolio(writer http.ResponseWriter, request *http.Requ
 
 	cryptocurrenciesData := make([]PortfolioDetailGetResponse, 0, len(portfolio))
 	for _, portfolioDetail := range portfolio {
+		var addedData *PortfolioDetailGetResponse
+		for i, addedPortfolioDetail := range cryptocurrenciesData {
+			if portfolioDetail.CMCCryptocurrencyID == addedPortfolioDetail.CryptID {
+				addedData = &addedPortfolioDetail
+				cryptocurrenciesData = append(cryptocurrenciesData[:i], cryptocurrenciesData[i+1:]...)
+			}
+		}
+
 		additionalData, err := c.service.GetCryptocurrencyAdditionalData(portfolioDetail, totalNowSum, cryptocurrencies)
 		if err != nil {
 			c.logger.Error(err)
@@ -57,24 +65,51 @@ func (c *Controller) GetPortfolio(writer http.ResponseWriter, request *http.Requ
 			return
 		}
 
+		_length := 0
+		if addedData != nil {
+			_length += len(addedData.Purchases)
+		}
+
+		purchases := make([]PurchaseGetResponse, 0, _length+1)
+		purchases = append(purchases, PurchaseGetResponse{
+			ID:           portfolioDetail.ID,
+			Price:        portfolioDetail.Price,
+			Count:        portfolioDetail.Count,
+			Sum:          additionalData["sum"],
+			PurchaseTime: types.Time(portfolioDetail.PurchaseTime),
+			Commentary:   portfolioDetail.Commentary,
+			CreatedAt:    types.Time(portfolioDetail.CreatedAt),
+		})
+
+		count := portfolioDetail.Count
+		sum := additionalData["now_sum"]
+		share := additionalData["portfolio_share"]
+		roi := additionalData["ROI"]
+		profit := additionalData["profit"]
+
+		if addedData != nil {
+			purchases = append(purchases, addedData.Purchases...)
+			sum = sum + addedData.Sum
+			count = count + addedData.Count
+			share = share + addedData.PortfolioShare
+			roi = (roi + addedData.ROI) / 2
+			profit = profit + addedData.Profit
+		}
+
 		detailData := PortfolioDetailGetResponse{
-			ID:                   portfolioDetail.ID,
 			CryptID:              portfolioDetail.CMCCryptocurrencyID,
 			Cryptocurrency:       portfolioDetail.Cryptocurrency,
 			CryptocurrencySymbol: portfolioDetail.CryptocurrencySymbol,
-			Price:                portfolioDetail.Price,
-			Count:                portfolioDetail.Count,
-			Sum:                  additionalData["sum"],
 			NowPrice:             additionalData["now_price"],
-			NowSum:               additionalData["now_sum"],
-			PurchaseTime:         types.Time(portfolioDetail.PurchaseTime),
-			Commentary:           portfolioDetail.Commentary,
-			CreatedAt:            types.Time(portfolioDetail.CreatedAt),
+			Count:                count,
+			Sum:                  sum,
 			PercentChange24h:     additionalData["percent_change_24h"],
 			PercentChange30d:     additionalData["percent_change_30d"],
 			PercentChange90d:     additionalData["percent_change_90d"],
-			PortfolioShare:       additionalData["portfolio_share"],
-			ROI:                  additionalData["ROI"],
+			PortfolioShare:       share,
+			ROI:                  roi,
+			Profit:               profit,
+			Purchases:            purchases,
 		}
 
 		cryptocurrenciesData = append(cryptocurrenciesData, detailData)
@@ -96,7 +131,7 @@ func (c *Controller) GetPortfolio(writer http.ResponseWriter, request *http.Requ
 // @Accept json
 // @Produce json
 // @Param input body PortfolioPostData true "data"
-// @Success 200 {object} ResponseSuccess 
+// @Success 200 {object} ResponseSuccess
 // @Failure 500 {object} ResponseError
 // @Security ApiKeyAuth
 // @Router /api/v1/portfolio [post]
@@ -141,10 +176,6 @@ func (c *Controller) CreatePortfolio(writer http.ResponseWriter, request *http.R
 			return
 		}
 
-		if errors.Is(err, services.ErrDuplicate) {
-			c.JSONResponse(writer, "cryptocurrency has already been added to the portfolio", http.StatusBadRequest)
-			return
-		}
 		c.JSONResponse(writer, text[0], http.StatusInternalServerError)
 		return
 	}

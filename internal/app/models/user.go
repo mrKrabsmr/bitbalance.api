@@ -6,22 +6,13 @@ import (
 	"github.com/google/uuid"
 )
 
-const (
-	GenderMail   = "mail"
-	GenderFemail = "femail"
-)
-
 type User struct {
-	ID          uuid.UUID  `db:"id" json:"id"`
-	Email       string     `db:"email" json:"email"`
-	Password    string     `db:"password" json:"password"`
-	FirstName   string     `db:"first_name" json:"first_name"`
-	LastName    string     `db:"last_name" json:"last_name"`
-	Gender      string     `db:"gender" json:"gender"`
-	BirthDate   time.Time `db:"birth_date" json:"birth_date"`
+	ID          uuid.UUID `db:"id" json:"id"`
+	Username    string    `db:"username" json:"username"`
+	Password    string    `db:"password" json:"password"`
 	CreatedAt   time.Time `db:"created_at" json:"created_at"`
-	IsSuperUser bool       `db:"is_superuser" json:"is_superuser"`
-	IsStaff     bool       `db:"is_staff" json:"is_staff"`
+	IsSuperUser bool      `db:"is_superuser" json:"is_superuser"`
+	IsStaff     bool      `db:"is_staff" json:"is_staff"`
 }
 
 func (u *User) TableName() string {

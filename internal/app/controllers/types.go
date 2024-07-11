@@ -25,21 +25,18 @@ type ResponseError struct {
 
 type Tokens struct {
 	UserID       string `json:"user_id"`
+	Username     string `json:"username"`
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 }
 
 type RegisterData struct {
-	Email     string     `json:"email" validate:"required,email"`
-	Password  string     `json:"password" validate:"required,min=8,max=20,alphanum"`
-	FirstName string     `json:"first_name" validate:"required,min=2"`
-	LastName  string     `json:"last_name" validate:"required,min=2"`
-	Gender    string     `json:"gender" validate:"required,oneof=male female"`
-	BirthDate types.Time `json:"birth_date" validate:"required,lt"`
+	Username string `json:"username" validate:"required,lowercase"`
+	Password string `json:"password" validate:"required,min=8,max=20,alphanum"`
 }
 
 type LoginData struct {
-	Email    string `json:"email" validate:"required"`
+	Username string `json:"username" validate:"required"`
 	Password string `json:"password" validate:"required"`
 }
 
@@ -62,24 +59,30 @@ type PortfolioPatchData struct {
 	Commentary   string     `json:"commentary"`
 }
 
+type PurchaseGetResponse struct {
+	ID           uuid.UUID  `json:"id"`
+	Price        float64    `json:"price" validate:"required"`
+	Count        float64    `json:"count" validate:"required"`
+	Sum          float64    `json:"sum"`
+	PurchaseTime types.Time `json:"purchase_time" validate:"required"`
+	Commentary   string     `json:"commentary"`
+	CreatedAt    types.Time `json:"created_at"`
+}
+
 type PortfolioDetailGetResponse struct {
-	ID                   uuid.UUID  `json:"id"`
-	CryptID              int64      `json:"cryptocurrency_id"`
-	Cryptocurrency       string     `json:"cryptocurrency"`
-	CryptocurrencySymbol string     `json:"cryptocurrency_symbol"`
-	Price                float64    `json:"price" validate:"required"`
-	Count                float64    `json:"count" validate:"required"`
-	Sum                  float64    `json:"sum"`
-	NowPrice             float64    `json:"now_price"`
-	NowSum               float64    `json:"now_sum"`
-	PurchaseTime         types.Time `json:"purchase_time" validate:"required"`
-	Commentary           string     `json:"commentary"`
-	CreatedAt            types.Time `json:"created_at"`
-	PercentChange24h     float64    `json:"percent_change_24h"`
-	PercentChange30d     float64    `json:"percent_change_30d"`
-	PercentChange90d     float64    `json:"percent_change_90d"`
-	PortfolioShare       float64    `json:"portfolio_share"`
-	ROI                  float64    `json:"ROI"`
+	CryptID              int64                 `json:"cryptocurrency_id"`
+	Cryptocurrency       string                `json:"cryptocurrency"`
+	CryptocurrencySymbol string                `json:"cryptocurrency_symbol"`
+	NowPrice             float64               `json:"now_price"`
+	Count                float64               `json:"count"`
+	Sum                  float64               `json:"sum"`
+	PercentChange24h     float64               `json:"percent_change_24h"`
+	PercentChange30d     float64               `json:"percent_change_30d"`
+	PercentChange90d     float64               `json:"percent_change_90d"`
+	PortfolioShare       float64               `json:"portfolio_share"`
+	ROI                  float64               `json:"ROI"`
+	Profit               float64               `json:"profit"`
+	Purchases            []PurchaseGetResponse `json:"purchases"`
 }
 
 type PortfolioGetResponse struct {
@@ -97,7 +100,7 @@ type StakingGetResponse struct {
 }
 
 type StakingDetailGetResponse struct {
-	BinanceStaking      []clients.StakingData             `json:"binance_stakings"`
-	BybitStaking        []clients.StakingData             `json:"bybit_stakings"`
-	OkxStaking          []clients.StakingData             `json:"okx_stakings"`
+	BinanceStaking []clients.StakingData `json:"binance_stakings"`
+	BybitStaking   []clients.StakingData `json:"bybit_stakings"`
+	OkxStaking     []clients.StakingData `json:"okx_stakings"`
 }

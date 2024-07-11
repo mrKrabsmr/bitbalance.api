@@ -9,27 +9,21 @@ from django.contrib.auth.base_user import AbstractBaseUser
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, email, password, first_name, last_name, gender,
-                    birth_date):
-        if not email:
-            raise ValueError('User must have email')
+    def create_user(self, username, password):
+        if not username:
+            raise ValueError("User must have username")
 
-        user = self.model(email=email, password=password,
-                          first_name=first_name, last_name=last_name,
-                          gender=gender, birth_date=birth_date)
+        user = self.model(username=username, password=password)
         user.save()
 
         return user
 
-    def create_superuser(self, email, password, first_name, last_name, gender,
-                         birth_date, is_superuser=True):
-        if not email:
-            raise ValueError('User must have email')
+    def create_superuser(self, username, password, is_superuser=True):
+        if not username:
+            raise ValueError("User must have username")
 
         user = self.model(
-            email=email, is_superuser=is_superuser, is_staff=True,
-            password=password, first_name=first_name, last_name=last_name,
-            gender=gender, birth_date=birth_date
+            username=username, password=password, is_superuser=is_superuser, is_staff=True,
         )
         user.save()
 
@@ -37,28 +31,18 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    genders = (
-        ("male", "male"),
-        ("female", "female"),
-    )
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(unique=True, max_length=255)
+    username = models.CharField(unique=True, max_length=255)
     password = models.CharField(max_length=255)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    gender = models.CharField(max_length=255, choices=genders)
-    birth_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
     last_login = None
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "username"
 
-    REQUIRED_FIELDS = ('password', "first_name", "last_name", "gender",
-                       "birth_date")
+    REQUIRED_FIELDS = ("password",)
 
     objects = UserManager()
 
@@ -69,7 +53,7 @@ class User(AbstractBaseUser):
         verbose_name_plural = "пользователи"
 
     def __str__(self):
-        return self.email
+        return self.username
 
     def save(self, *args, **kwargs):
         if self._state.adding or self.password != self.__class__.objects.get(pk=self.pk).password:
@@ -88,9 +72,10 @@ class Portfolio(models.Model):
     user = models.ForeignKey('User', models.CASCADE)
     cmc_cryptocurrency_id = models.IntegerField()
     cryptocurrency = models.CharField(max_length=255, null=True, blank=True)
-    cryptocurrency_symbol = models.CharField(max_length=30, null=True, blank=True)
+    cryptocurrency_symbol = models.CharField(
+        max_length=30, null=True, blank=True)
     price = models.FloatField()
-    count = models.IntegerField()
+    count = models.FloatField()
     purchase_time = models.DateTimeField()
     commentary = models.CharField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
